@@ -2,7 +2,7 @@
 	"name": "lime-server",
 	"private": true,
 	"description": "LIME app's backend",
-	"main": "server.js",
+	"main": "src/server.js",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},

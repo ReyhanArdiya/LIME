@@ -1,12 +1,14 @@
+import "dotenv/config";
 import express from "express";
-import { fileURLToPath } from "url";
-import { dirname, join } from "path";
+import mongoose from "mongoose";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-if (process.env.NODE_ENV !== "production") {
-	(await import("dotenv")).config({ path : join(__dirname, "") });
+// Connect mongo
+const mongoDatabase = process.env.MONGODB;
+try {
+	await mongoose.connect(mongoDatabase);
+	console.log(`Connected to ${mongoDatabase}!🍃`);
+} catch (err) {
+	console.log(`Error! Can't connect to ${mongoDatabase}!🍂`, err);
 }
 
 const port = process.env.PORT;
