@@ -105,3 +105,6 @@ dist
 
 # IDE configs
 .vscode/
+
+# Test books
+*.restbook
