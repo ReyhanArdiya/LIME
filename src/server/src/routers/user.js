@@ -12,20 +12,8 @@ userRouter.post("/register", userController.registerUser);
 userRouter.post("/login", passport.authenticate("local"));
 
 userRouter.route(userController.isLoggedIn, "/")
-	.get(/* pass */)
-	.delete(async (req, res, next) => {
-		try {
-			// pass
-		} catch (err) {
-			next(err);
-		}
-	})
-	.patch(async (req, res, next) => {
-		try {
-			// pass
-		} catch (err) {
-			next(err);
-		}
-	});
+	.get(userController.sendUser)
+	.delete(userController.deleteUser)
+	.patch(userController.updateUser);
 
 export default userRouter;

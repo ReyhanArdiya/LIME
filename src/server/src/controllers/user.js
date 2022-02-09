@@ -27,9 +27,33 @@ const registerUser = async (req, res, next) => {
 	}
 };
 
+// TODO is this how we do it in SPAs?
+const sendUser = (req, res) => {
+	res.send(req.user);
+};
+
+const deleteUser = async (req, res, next) => {
+	try {
+		await User.findByIdAndDelete(req.user._id);
+	} catch (err) {
+		next(err);
+	}
+};
+
+const updateUser = async (req, res, next) => {
+	try {
+		// pass
+	} catch (err) {
+		next(err);
+	}
+};
+
 const userController = {
+	deleteUser,
 	isLoggedIn,
-	registerUser
+	registerUser,
+	sendUser,
+	updateUser,
 };
 
 export default userController;
