@@ -1,0 +1,17 @@
+{
+	"author": "Reyhan Ardiya",
+	"dependencies": {
+		"concurrently": "^7.0.0"
+	},
+	"description": "A note taking app",
+	"devDependencies": {
+		"eslint-plugin-jsdoc": "^37.8.0"
+	},
+	"keywords": [],
+	"license": "MIT",
+	"name": "lime",
+	"scripts": {
+		"start": "use concurrently later"
+	},
+	"version": "0.0.0"
+}
