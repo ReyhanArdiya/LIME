@@ -1,2 +1,3 @@
 # LIME
-A note taking app using MERN stack
+
+A note taking app built on MERN stack
