@@ -4,6 +4,7 @@ import express from "express";
 import mongoose from "mongoose";
 import passport from "passport";
 import session from "express-session";
+import userRouter from "./routers/user.js";
 
 // Connect mongo
 const mongoDatabase = process.env.MONGODB;
@@ -54,5 +55,7 @@ app.use((req, res, next) => {
 	next();
 });
 
+// Use routers
+app.use("/user", userRouter);
 
 app.listen(port, () => console.log(`Listening on 🚢 ${port} (●'◡'●)`));
