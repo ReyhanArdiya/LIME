@@ -1,4 +1,5 @@
 import "dotenv/config";
+import GoogleStrategy from "passport-google-oauth2";
 import User from "./models/user.js";
 import express from "express";
 import mongoose from "mongoose";
@@ -43,6 +44,32 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 passport.use(User.createStrategy());
+passport.use(new GoogleStrategy({
+	callbackURL       : `/user${process.env.GOOGLE_AUTH_CB}`,
+	clientID          : process.env.GOOGLE_CLIENT_ID,
+	clientSecret      : process.env.GOOGLE_CLIENT_SECRET,
+	passReqToCallback : true
+}, (request, accessToken, refreshToken, profile, done) => {
+	return done(null, profile);
+}));
+
+// Google de/serializers
+passport.serializeUser((user, done) => {
+	if (user.provider === "google") {
+		done(null, user);
+	} else {
+		done("pass");
+	}
+});
+passport.deserializeUser((user, done) => {
+	if (user.provider === "google") {
+		done(null, user);
+	} else {
+		done("pass");
+	}
+});
+
+// Local de/serializers
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
