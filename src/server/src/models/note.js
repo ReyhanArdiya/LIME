@@ -40,10 +40,6 @@ const NoteSchema = new mongoose.Schema({
 	}
 }, { strict : "throw" });
 
-// TODO add post save and delete middlewares
-class NoteSchemaMethods {}
-NoteSchema.loadClass(NoteSchemaMethods);
-
 const Note = mongoose.model("Note", NoteSchema);
 
 export default Note;
