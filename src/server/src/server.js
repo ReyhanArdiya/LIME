@@ -2,10 +2,15 @@ import "dotenv/config";
 import GoogleStrategy from "passport-google-oauth2";
 import User from "./models/user.js";
 import express from "express";
+import { fileURLToPath } from "url";
 import mongoose from "mongoose";
 import passport from "passport";
 import session from "express-session";
 import userRouter from "./routers/user.js";
+import { dirname, join } from "path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 // Connect mongo
 const mongoDatabase = process.env.MONGODB;
@@ -82,10 +87,20 @@ app.use((req, res, next) => {
 	console.log(
 		"🌟 You got a new request! ( *≧◡≦)~💌 \\(￣▽￣* )ゞ 🌟",
 		`⌚ ${new Date()
-			.toLocaleString()} ⌚`
+			.toLocaleString()} ⌚`,
+		req.session,
+		req.user
 	);
 	next();
 });
+
+
+if (process.env.NODE_ENV !== "production") {
+	app.get("/", (req, res) => {
+		res.sendFile(join(__dirname, "./tests/test.html"));
+
+	});
+}
 
 // Use routers
 app.use("/user", userRouter);

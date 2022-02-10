@@ -4,7 +4,7 @@ import User from "../models/user.js";
 const isLoggedIn = (req, res, next) => {
 	if (req.isUnauthenticated()) {
 		// TODO change this for SPA
-		res.redirect("/auth/login");
+		res.redirect("/user/login");
 	} else {
 		next();
 	}
@@ -37,6 +37,7 @@ const sendUser = (req, res) => {
 const deleteUser = async (req, res, next) => {
 	try {
 		await User.findByIdAndDelete(req.user._id);
+		res.end();
 	} catch (err) {
 		next(err);
 	}
@@ -45,6 +46,7 @@ const deleteUser = async (req, res, next) => {
 const updateUser = async (req, res, next) => {
 	try {
 		// pass
+		res.end();
 	} catch (err) {
 		next(err);
 	}

@@ -9,7 +9,7 @@ userRouter.use(express.urlencoded({ extended : true }));
 
 userRouter.post("/register", userController.registerUser);
 
-userRouter.post("/login", passport.authenticate("local"));
+userRouter.post("/login", passport.authenticate("local", { successRedirect : "/" }));
 
 userRouter.get(process.env.GOOGLE_AUTH_PATH, passport.authenticate(
 	"google",
@@ -18,10 +18,11 @@ userRouter.get(process.env.GOOGLE_AUTH_PATH, passport.authenticate(
 userRouter.get(process.env.GOOGLE_AUTH_CB, passport.authenticate(
 	"google",
 	// DBG
-	{ successRedirect : "https://www.google.com?q=beach+house+the+hours" }
+	{ successRedirect : "/" }
 ));
 
-userRouter.route(userController.isLoggedIn, "/")
+userRouter.route("/")
+	.all(userController.isLoggedIn)
 	.get(userController.sendUser)
 	.delete(userController.deleteUser)
 	.patch(userController.updateUser);
