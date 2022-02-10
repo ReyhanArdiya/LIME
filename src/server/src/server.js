@@ -44,11 +44,12 @@ app.use(session({
 	// )
 }));
 
+// TODO seperate the passport stuff into another file
 // Passport stuff
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.use(User.createStrategy());
+passport.use(/* TODO local strategy here */);
 passport.use(new GoogleStrategy(
 	{
 		callbackURL       : `/user${process.env.GOOGLE_AUTH_CB}`,
@@ -57,8 +58,6 @@ passport.use(new GoogleStrategy(
 		passReqToCallback : true
 	},
 	(request, accessToken, refreshToken, profile, done) => {
-		console.log(request, accessToken, refreshToken, profile, done);
-
 		return done(null, profile);
 	}
 ));
@@ -80,16 +79,16 @@ passport.deserializeUser((user, done) => {
 });
 
 // Local de/serializers
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+passport.serializeUser(/* TODO local strategy here */);
+passport.deserializeUser(/* TODO local strategy here */);
 
 app.use((req, res, next) => {
 	console.log(
 		"🌟 You got a new request! ( *≧◡≦)~💌 \\(￣▽￣* )ゞ 🌟",
 		`⌚ ${new Date()
 			.toLocaleString()} ⌚`,
-		req.session,
-		req.user
+		// req.session,
+		// req.user
 	);
 	next();
 });

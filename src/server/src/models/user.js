@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import passportLocalMongoose from "passport-local-mongoose";
 
 const validateEmail = email => {
 	const re = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
@@ -17,8 +16,6 @@ const UserSchema = new mongoose.Schema({
 		validate : [ validateEmail, "Please fill a valid email address" ],
 	}
 }, { strict : "throw" });
-
-UserSchema.plugin(passportLocalMongoose, { usernameQueryFields : [ "email" ] });
 
 const User = mongoose.model("User", UserSchema);
 

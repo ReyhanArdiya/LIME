@@ -18,6 +18,7 @@ const registerUser = async (req, res, next) => {
 			username
 		});
 
+		/* TODO make own version using bcrypt */
 		const newUser = await User.register(user, password);
 
 		req.login(newUser, err => err && console.error(err));
