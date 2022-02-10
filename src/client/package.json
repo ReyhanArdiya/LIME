@@ -1,7 +1,7 @@
 {
 	"name": "lime-client",
 	"private": true,
-	"description": "LIME app's client",
+	"description": "Lime app's client",
 	"dependencies": {
 		"@testing-library/jest-dom": "^5.16.2",
 		"@testing-library/react": "^12.1.2",
