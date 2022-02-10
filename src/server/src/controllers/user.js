@@ -27,6 +27,8 @@ const registerUser = async (req, res, next) => {
 	}
 };
 
+// TODO add logout which i think can be used for any strategies
+
 // TODO is this how we do it in SPAs?
 const sendUser = (req, res) => {
 	res.send(req.user);
