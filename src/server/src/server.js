@@ -1,11 +1,10 @@
 import "dotenv/config";
-import GoogleStrategy from "passport-google-oauth2";
-import User from "./models/user.js";
 import express from "express";
 import { fileURLToPath } from "url";
 import mongoose from "mongoose";
 import passport from "passport";
 import session from "express-session";
+import setupPassport from "./controllers/setup-passport.js";
 import userRouter from "./routers/user.js";
 import { dirname, join } from "path";
 
@@ -44,44 +43,13 @@ app.use(session({
 	// )
 }));
 
-// TODO seperate the passport stuff into another file
 // Passport stuff
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.use(/* TODO local strategy here */);
-passport.use(new GoogleStrategy(
-	{
-		callbackURL       : `/user${process.env.GOOGLE_AUTH_CB}`,
-		clientID          : process.env.GOOGLE_CLIENT_ID,
-		clientSecret      : process.env.GOOGLE_CLIENT_SECRET,
-		passReqToCallback : true
-	},
-	(request, accessToken, refreshToken, profile, done) => {
-		return done(null, profile);
-	}
-));
+setupPassport(passport);
 
-// Google de/serializers
-passport.serializeUser((user, done) => {
-	if (user.provider === "google") {
-		done(null, user);
-	} else {
-		done("pass");
-	}
-});
-passport.deserializeUser((user, done) => {
-	if (user.provider === "google") {
-		done(null, user);
-	} else {
-		done("pass");
-	}
-});
-
-// Local de/serializers
-passport.serializeUser(/* TODO local strategy here */);
-passport.deserializeUser(/* TODO local strategy here */);
-
+// App middleware stuff
 app.use((req, res, next) => {
 	console.log(
 		"🌟 You got a new request! ( *≧◡≦)~💌 \\(￣▽￣* )ゞ 🌟",
