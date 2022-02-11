@@ -114,7 +114,7 @@ const serializeGoogleStrategy = (user, done) => {
 			}
 		);
 	} else {
-		done(null, "pass");
+		done("pass");
 	}
 };
 
@@ -130,7 +130,7 @@ const deserializeGoogleStrategy = async (googleUser, done) => {
 			};
 			done(null, reqUser);
 		} else {
-			done(null, "pass");
+			done("pass");
 		}
 	} catch (err) {
 		done(err);
