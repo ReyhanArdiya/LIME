@@ -45,6 +45,7 @@ const sendUser = (req, res) => {
 const deleteUser = async (req, res, next) => {
 	try {
 		await User.findByIdAndDelete(req.user._id);
+		req.logout();
 		res.end();
 	} catch (err) {
 		next(err);
