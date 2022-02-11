@@ -1,7 +1,6 @@
 import User from "../models/user.js";
 import bcrypt from "bcrypt";
 
-// TODO make this function check logged in from either local or google?
 const isLoggedIn = (req, res, next) => {
 	if (req.isUnauthenticated()) {
 		// TODO change this for SPA
