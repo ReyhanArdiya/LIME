@@ -1,10 +1,15 @@
 import "dotenv/config";
-import User from "./models/user.js";
 import express from "express";
+import { fileURLToPath } from "url";
 import mongoose from "mongoose";
 import passport from "passport";
 import session from "express-session";
+import setupPassport from "./controllers/setup-passport.js";
 import userRouter from "./routers/user.js";
+import { dirname, join } from "path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 // Connect mongo
 const mongoDatabase = process.env.MONGODB;
@@ -42,18 +47,27 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.use(User.createStrategy());
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+setupPassport(passport);
 
+// App middleware stuff
 app.use((req, res, next) => {
 	console.log(
 		"🌟 You got a new request! ( *≧◡≦)~💌 \\(￣▽￣* )ゞ 🌟",
 		`⌚ ${new Date()
-			.toLocaleString()} ⌚`
+			.toLocaleString()} ⌚`,
+		// req.session,
+		// req.user
 	);
 	next();
 });
+
+
+if (process.env.NODE_ENV !== "production") {
+	app.get("/", (req, res) => {
+		res.sendFile(join(__dirname, "./tests/test.html"));
+
+	});
+}
 
 // Use routers
 app.use("/user", userRouter);

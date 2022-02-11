@@ -2,6 +2,7 @@ import dateFormat from "dateformat";
 import mongoose from "mongoose";
 
 const DateSchema = new mongoose.Schema({
+	// TODO change this to use mongoose timestamps instead
 	_created : {
 		default  : Date.now(),
 		required : true,
