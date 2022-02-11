@@ -7,13 +7,46 @@ const validateEmail = email => {
 };
 
 const UserSchema = new mongoose.Schema({
-	email : {
-		match    : [ /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/, "Please fill a valid email address" ],
+	accounts : {
+		google : {
+			email : {
+				index    : true,
+				match    : [ /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/, "Please fill a valid email address" ],
+				sparse   : true,
+				trim     : true,
+				type     : String,
+				unique   : true,
+				validate : [ validateEmail, "Please fill a valid email address" ],
+			},
+			id       : String,
+			provider : String,
+			token    : String,
+		},
+
+		local : {
+			email : {
+				index    : true,
+				match    : [ /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/, "Please fill a valid email address" ],
+				sparse   : true,
+				trim     : true,
+				type     : String,
+				unique   : true,
+				validate : [ validateEmail, "Please fill a valid email address" ],
+
+			},
+			password : String,
+			provider : String
+		}
+	},
+
+	/* TODO username will be created by the
+	user after registering form any account. So after registring email, they will be prompted to give their username */
+	username : {
+		index    : true,
 		required : true,
-		trim     : true,
+		sparse   : true,
 		type     : String,
-		unique   : true,
-		validate : [ validateEmail, "Please fill a valid email address" ],
+		unique   : true
 	}
 }, { strict : "throw" });
 

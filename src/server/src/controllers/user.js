@@ -1,4 +1,5 @@
 import User from "../models/user.js";
+import bcrypt from "bcrypt";
 
 // TODO make this function check logged in from either local or google?
 const isLoggedIn = (req, res, next) => {
@@ -14,15 +15,21 @@ const registerUser = async (req, res, next) => {
 	try {
 		const { email, username, password } = req.body;
 		const user = new User({
-			email,
+			accounts : {
+				local : {
+					email,
+					password : await bcrypt.hash(password, 12),
+					provider : "local"
+				}
+			},
 			username
 		});
 
-		/* TODO make own version using bcrypt */
-		const newUser = await User.register(user, password);
+		await user.save();
 
-		req.login(newUser, err => err && console.error(err));
-		res.send(newUser);
+		req.login(user, err => err && console.error(err));
+		// DBG
+		res.send(user);
 	} catch (err) {
 		next(err);
 	}
